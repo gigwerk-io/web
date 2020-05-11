@@ -7,6 +7,11 @@ import {CheckAuth} from './providers/check-auth.service';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {
     path: 'login',
     component: LoginComponent,
     canActivate: [CheckAuth]
@@ -24,6 +29,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes)
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [CheckAuth]
 })
 export class AppRoutingModule { }

@@ -4,9 +4,11 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './pages/login/login.component';
-import { MarketplaceComponent } from './pages/marketplace/marketplace.component';
-import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
 import {AppLayoutModule} from './layouts/app-layout/app-layout.module';
+import {IonicModule} from '@ionic/angular';
+import {IonicStorageModule} from '@ionic/storage';
+import {MomentModule} from 'ngx-moment';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,9 +16,17 @@ import {AppLayoutModule} from './layouts/app-layout/app-layout.module';
     LoginComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    AppLayoutModule
+    AppLayoutModule,
+    BrowserModule,
+    HttpClientModule,
+    IonicModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: '_favrDB',
+      storeName: '__favrKV',
+      description: 'FAVR client side storage'
+    }),
+    MomentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

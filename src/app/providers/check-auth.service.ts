@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import { Storage } from '@ionic/storage';
-import {StorageKeys} from './constants';
+import {Storage} from '@ionic/storage';
 import {AuthService} from '../utils/services/auth.service';
 import {UtilsService} from '../utils/services/utils.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class CheckAuth implements CanActivate {
-  constructor(private storage: Storage,
-              private router: Router,
-              private auth: AuthService,
-              private utils: UtilsService) {}
+  constructor(
+    private storage: Storage,
+    private router: Router,
+    private auth: AuthService
+  ) {  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
