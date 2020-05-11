@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './pages/login/login.component';
 import {MarketplaceComponent} from './pages/marketplace/marketplace.component';
+import {CheckAuth} from './providers/check-auth.service';
 
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [CheckAuth]
   },
   {
-    path: 'marketplace',
-    component: MarketplaceComponent
+    path: 'app',
+    loadChildren: () => import('src/app/layouts/app-layout/app-layout.module').then(m => m.AppLayoutModule),
+    canActivate: [CheckAuth]
   }
 ];
 
