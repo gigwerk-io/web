@@ -25,10 +25,6 @@ export class FavrNavComponent implements OnInit {
   }
 
   signOut() {
-    this.storage.get(StorageKeys.ACCESS_TOKEN)
-      .then(token => {
-        console.log(token);
-        this.authService.logout(token);
-      });
+    this.authService.logout();
   }
 }

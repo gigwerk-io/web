@@ -65,19 +65,21 @@ export class AuthService extends RESTService {
       });
   }
 
-  logout(token: AuthorizationToken): Promise<SignOutResponse> {
-    return this.httpClient.get<SignOutResponse>(`${API_ADDRESS}/logout`, token).pipe(
-      tap(async (res: SignOutResponse) => {
-        console.log(res);
-        if (res.success) {
-          this.utils.presentToast('You have been logged out.', 'success');
-          this.storage.remove(StorageKeys.PROFILE);
-          this.storage.remove(StorageKeys.ACCESS_TOKEN);
-          this.authSubject.next(false);
-          this.router.navigateByUrl('/login');
-        }
-      })
-    ).toPromise();
+  logout(): Promise<SignOutResponse> {
+    return this.makeHttpRequest<SignOutResponse>(`/logout`, 'GET')
+      .then(httpRes => httpRes
+        .toPromise()
+        .then((res: SignOutResponse) => {
+          console.log(res);
+          if (res.success) {
+            this.utils.presentToast('You have been logged out.', 'success');
+            this.storage.remove(StorageKeys.PROFILE);
+            this.storage.remove(StorageKeys.ACCESS_TOKEN);
+            this.authSubject.next(false);
+            this.router.navigateByUrl('/login');
+          }
+          return res;
+        }));
   }
 
   isLoggedIn() {
@@ -88,8 +90,7 @@ export class AuthService extends RESTService {
     return this.makeHttpRequest<ValidateTokenResponse>('validate', 'GET')
       .then(httpRes => httpRes.toPromise().then(res => {
         if (!res.data.validToken) {
-          this.storage.get(StorageKeys.ACCESS_TOKEN)
-            .then(token => this.logout(token));
+          this.logout();
         }
 
         return res;
