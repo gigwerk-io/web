@@ -28,7 +28,8 @@ export class UtilsService {
       position,
       duration,
       color,
-      buttons
+      buttons,
+      translucent: false
     }).then(toast => {
       toast.present();
     });

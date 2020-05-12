@@ -25,13 +25,11 @@ export class RESTService {
    * @param route the route that is targeted
    * @param httpMethod the http method to be used, 'GET', 'POST', 'PUT', 'DELETE', 'PATCH'
    * @param httpParams the http params or body
-   * @param callback a function to do some intermittent logic while fetching data
    */
   public makeHttpRequest<T>(
     route: string,
     httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
-    httpParams?: any,
-    callback?: (...args) => any
+    httpParams?: any
   ): Promise<Observable<T> | undefined> {
     return this.storage.get(StorageKeys.ACCESS_TOKEN)
       .then(token => {
@@ -40,10 +38,6 @@ export class RESTService {
             Authorization: (token) ? token : ''
           }
         };
-
-        // a callback function for executing functionality in parallel with a backend call
-        // tslint:disable-next-line:no-unused-expression
-        callback;
 
         route = `${API_ADDRESS}/${route}`;
         switch (httpMethod) {

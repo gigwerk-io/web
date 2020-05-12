@@ -12,6 +12,7 @@ export class PusherServiceProvider implements OnInit, OnDestroy {
   constructor(public http: HttpClient, private storage: Storage) {
   }
 
+  // tslint:disable-next-line:contextual-lifecycle
   ngOnInit(): void {
   }
 

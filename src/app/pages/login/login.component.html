@@ -10,10 +10,11 @@
     <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
       <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
         <favr-input
-          inputId="email"
-          formControlName="email"
-          inputType="email"
-          labelName="Email Address"
+          inputId="username"
+          formControlName="username"
+          inputType="text"
+          labelName="Username or Email"
+          inputRequired="true"
         ></favr-input>
         <div class="mt-6">
           <favr-input
@@ -21,13 +22,14 @@
             formControlName="password"
             inputType="password"
             labelName="Password"
+            inputRequired="true"
           ></favr-input>
         </div>
 
         <div class="mt-6 flex items-center justify-between">
 
           <div class="text-sm leading-5">
-            <a href="#" class="font-medium text-red-600 hover:text-red-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
               Forgot your password?
             </a>
           </div>
@@ -35,7 +37,10 @@
 
         <div class="mt-6">
           <span class="block w-full rounded-md shadow-sm">
-            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition duration-150 ease-in-out">
+            <button
+              type="submit"
+              [disabled]="!signInForm.valid"
+              class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition duration-150 ease-in-out">
               Sign in
             </button>
           </span>

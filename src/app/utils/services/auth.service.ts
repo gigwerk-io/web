@@ -9,6 +9,7 @@ import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {RESTService} from './rest.service';
 import {UtilsService} from './utils.service';
 import {NavController} from '@ionic/angular';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,9 @@ export class AuthService extends RESTService {
   constructor(
     public httpClient: HttpClient,
     public storage: Storage,
-    public utils: UtilsService,
-    public navCtrl: NavController
+    private utils: UtilsService,
+    private navCtrl: NavController,
+    private router: Router
   ) {
     super(httpClient, storage);
   }
@@ -47,6 +49,12 @@ export class AuthService extends RESTService {
         }
       })
     ).toPromise()
+      .then(res => {
+        if (res.success) {
+          this.router.navigateByUrl('/app/marketplace');
+        }
+        return res;
+      })
       .catch((error: HttpErrorResponse) => {
         console.log(error);
         if (error.error) {
@@ -66,7 +74,7 @@ export class AuthService extends RESTService {
           this.storage.remove(StorageKeys.PROFILE);
           this.storage.remove(StorageKeys.ACCESS_TOKEN);
           this.authSubject.next(false);
-          this.navCtrl.navigateRoot('/welcome');
+          this.router.navigateByUrl('/login');
         }
       })
     ).toPromise();

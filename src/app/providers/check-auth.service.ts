@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Storage} from '@ionic/storage';
 import {AuthService} from '../utils/services/auth.service';
-import {UtilsService} from '../utils/services/utils.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,7 @@ export class CheckAuth implements CanActivate {
   ): Promise<boolean> {
     return this.auth.isValidToken()
       .then(token => {
+        console.log('>>>>> ' + token.data.validToken);
         if (token.data.validToken) {
           if (state.url !== '/app/marketplace') {
             this.router.navigateByUrl('/app/marketplace');
@@ -33,7 +34,8 @@ export class CheckAuth implements CanActivate {
         }
         return true;
       })
-      .catch(error => {
+      .catch((error: HttpErrorResponse) => {
+        console.log(error);
         if (!(state.url === '/login'
           || state.url === '/signup'
           || state.url === '/forgot-password')) {
