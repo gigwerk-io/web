@@ -8,6 +8,7 @@ import {NgbRatingModule} from '@ng-bootstrap/ng-bootstrap';
 import {FavrImgComponent} from './favr-img/favr-img.component';
 import {FavrInputComponent} from './favr-input/favr-input.component';
 import { FavrNavComponent } from './favr-nav/favr-nav.component';
+import { FavrMarketplaceCardComponent } from './favr-marketplace-card/favr-marketplace-card.component';
 
 const COMPONENTS = [
   FavrImgComponent,
@@ -25,7 +26,7 @@ const MODULES = [
 
 @NgModule({
   imports: [...MODULES, ReactiveFormsModule],
-  exports: [...COMPONENTS, ...MODULES, FavrNavComponent],
-  declarations: [...COMPONENTS, FavrNavComponent]
+  exports: [...COMPONENTS, ...MODULES, FavrNavComponent, FavrMarketplaceCardComponent],
+  declarations: [...COMPONENTS, FavrNavComponent, FavrMarketplaceCardComponent]
 })
 export class CommonComponentsModule { }

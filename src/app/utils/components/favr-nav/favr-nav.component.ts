@@ -6,7 +6,7 @@ import {StorageKeys} from '../../../providers/constants';
 @Component({
   selector: 'favr-nav',
   templateUrl: './favr-nav.component.html',
-  styleUrls: ['./favr-nav.component.css']
+  styleUrls: ['./favr-nav.component.scss']
 })
 export class FavrNavComponent implements OnInit {
 
