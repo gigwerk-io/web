@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Events} from '../../../../utils/services/events';
 
 @Component({
   selector: 'app-marketplace',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MarketplaceComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private events: Events
+  ) { }
 
   ngOnInit(): void {
+    this.events.publish('currentPageUrl', '/app/marketplace');
   }
 
 }

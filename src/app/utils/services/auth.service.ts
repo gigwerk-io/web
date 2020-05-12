@@ -9,6 +9,7 @@ import {API_ADDRESS, StorageKeys} from '../../providers/constants';
 import {RESTService} from './rest.service';
 import {UtilsService} from './utils.service';
 import {NavController} from '@ionic/angular';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,9 @@ export class AuthService extends RESTService {
   constructor(
     public httpClient: HttpClient,
     public storage: Storage,
-    public utils: UtilsService,
-    public navCtrl: NavController
+    private utils: UtilsService,
+    private navCtrl: NavController,
+    private router: Router
   ) {
     super(httpClient, storage);
   }
@@ -47,6 +49,12 @@ export class AuthService extends RESTService {
         }
       })
     ).toPromise()
+      .then(res => {
+        if (res.success) {
+          this.router.navigateByUrl('/app/marketplace');
+        }
+        return res;
+      })
       .catch((error: HttpErrorResponse) => {
         console.log(error);
         if (error.error) {
@@ -57,19 +65,21 @@ export class AuthService extends RESTService {
       });
   }
 
-  logout(token: AuthorizationToken): Promise<SignOutResponse> {
-    return this.httpClient.get<SignOutResponse>(`${API_ADDRESS}/logout`, token).pipe(
-      tap(async (res: SignOutResponse) => {
-        console.log(res);
-        if (res.success) {
-          this.utils.presentToast('You have been logged out.', 'success');
-          this.storage.remove(StorageKeys.PROFILE);
-          this.storage.remove(StorageKeys.ACCESS_TOKEN);
-          this.authSubject.next(false);
-          this.navCtrl.navigateRoot('/welcome');
-        }
-      })
-    ).toPromise();
+  logout(): Promise<SignOutResponse> {
+    return this.makeHttpRequest<SignOutResponse>(`/logout`, 'GET')
+      .then(httpRes => httpRes
+        .toPromise()
+        .then((res: SignOutResponse) => {
+          console.log(res);
+          if (res.success) {
+            this.utils.presentToast('You have been logged out.', 'success');
+            this.storage.remove(StorageKeys.PROFILE);
+            this.storage.remove(StorageKeys.ACCESS_TOKEN);
+            this.authSubject.next(false);
+            this.router.navigateByUrl('/login');
+          }
+          return res;
+        }));
   }
 
   isLoggedIn() {
@@ -80,8 +90,7 @@ export class AuthService extends RESTService {
     return this.makeHttpRequest<ValidateTokenResponse>('validate', 'GET')
       .then(httpRes => httpRes.toPromise().then(res => {
         if (!res.data.validToken) {
-          this.storage.get(StorageKeys.ACCESS_TOKEN)
-            .then(token => this.logout(token));
+          this.logout();
         }
 
         return res;
