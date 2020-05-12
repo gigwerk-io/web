@@ -9,6 +9,8 @@ import {IonicModule} from '@ionic/angular';
 import {IonicStorageModule} from '@ionic/storage';
 import {MomentModule} from 'ngx-moment';
 import {HttpClientModule} from '@angular/common/http';
+import {CommonComponentsModule} from './utils/components/common-components.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import {HttpClientModule} from '@angular/common/http';
       storeName: '__favrKV',
       description: 'FAVR client side storage'
     }),
-    MomentModule
+    MomentModule,
+    CommonComponentsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
